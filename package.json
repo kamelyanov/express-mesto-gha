@@ -27,7 +27,8 @@
     "deep-is": "^0.1.4",
     "doctrine": "^3.0.0",
     "escape-string-regexp": "^4.0.0",
-    "eslint": "^8.19.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-scope": "^7.1.1",
     "eslint-utils": "^3.0.0",
     "eslint-visitor-keys": "^3.3.0",
@@ -120,5 +121,9 @@
   "bugs": {
     "url": "https://github.com/kamelyanov/express-mesto-gha/issues"
   },
-  "homepage": "https://github.com/kamelyanov/express-mesto-gha#readme"
+  "homepage": "https://github.com/kamelyanov/express-mesto-gha#readme",
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "eslint-plugin-react": "^7.30.1"
+  }
 }
