@@ -2,7 +2,7 @@ const Card = require('../models/cards')
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .then(cards => res.status(200).send({ data: card }))
+    .then(cards => res.status(200).send(cards))
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
@@ -11,7 +11,7 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then(card => res.status(201).send({ data: card }))
+    .then(card => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
@@ -27,7 +27,7 @@ module.exports.deleteCard = (req, res) => {
         res.status(404).send({ message: 'Карточка не найдена' });
         return
       }
-      res.status(200).send({ data: cards })
+      res.status(200).send(card)
     })
     .catch(err => res.status(500).send({ message: err.message }));
 };
@@ -42,7 +42,7 @@ module.exports.likeCard = (req, res) => {
         res.status(404).send({ message: 'Карточка не найдена' });
         return
       }
-      res.status(200).send({ data: cards })
+      res.status(200).send(card)
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -62,7 +62,7 @@ module.exports.dislikeCard = (req, res) => {
         res.status(404).send({ message: 'Карточка не найдена' });
         return
       }
-      res.status(200).send({ data: cards })
+      res.status(200).send({ data: card })
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
