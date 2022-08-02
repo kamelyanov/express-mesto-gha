@@ -4,8 +4,8 @@ const cardRouter = require('./cards');
 
 router.get('/', (req, res) => {
   res.status(200);
-  res.send('Hello World')
-})
+  res.send('Hello World');
+});
 
 router.use(userRouter);
 router.use(cardRouter);
