@@ -30,11 +30,11 @@ module.exports.deleteCard = (req, res) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err) {
         res.status(400).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      res.status(500).send({ message: err.message })
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -52,11 +52,11 @@ module.exports.likeCard = (req, res) => {
       res.status(200).send(card);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err) {
         res.status(400).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      return res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -74,10 +74,10 @@ module.exports.dislikeCard = (req, res) => {
       res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err) {
         res.status(400).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      return res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err.message });
     });
 };
