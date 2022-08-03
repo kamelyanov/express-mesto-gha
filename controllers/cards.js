@@ -29,13 +29,21 @@ module.exports.deleteCard = (req, res) => {
       }
       res.status(200).send(card);
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Переданы некорректные данные' });
+        return;
+      }
+      res.status(500).send({ message: err.message })
+    });
 };
 
 module.exports.likeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params.cardId,
+  Card.findByIdAndUpdate(
+    req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
-    { new: true })
+    { new: true },
+  )
     .then((card) => {
       if (!card) {
         res.status(404).send({ message: 'Карточка не найдена' });
@@ -45,16 +53,19 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Переданы некорректные данные' });
+        res.status(400).send({ message: 'Переданы некорректные данные' });
+        return;
       }
       return res.status(500).send({ message: err.message });
     });
 };
 
 module.exports.dislikeCard = (req, res) => {
-  Card.findByIdAndUpdate(req.params.cardId,
+  Card.findByIdAndUpdate(
+    req.params.cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
-    { new: true })
+    { new: true },
+  )
     .then((card) => {
       if (!card) {
         res.status(404).send({ message: 'Карточка не найдена' });
@@ -64,7 +75,8 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Переданы некорректные данные' });
+        res.status(400).send({ message: 'Переданы некорректные данные' });
+        return;
       }
       return res.status(500).send({ message: err.message });
     });
