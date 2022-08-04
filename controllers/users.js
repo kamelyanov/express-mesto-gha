@@ -2,7 +2,7 @@ const User = require('../models/user');
 const {
   ok,
   created,
-  unCorrenctData,
+  badRequest,
   notFound,
   defaultError,
 } = require('../constants/statuses');
@@ -20,7 +20,7 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.status(created).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
@@ -38,7 +38,7 @@ module.exports.getUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
@@ -58,7 +58,7 @@ module.exports.updateUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
@@ -78,7 +78,7 @@ module.exports.updateAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });

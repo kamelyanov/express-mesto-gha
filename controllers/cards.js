@@ -2,7 +2,7 @@ const Card = require('../models/cards');
 const {
   ok,
   created,
-  unCorrenctData,
+  badRequest,
   notFound,
   defaultError,
 } = require('../constants/statuses');
@@ -20,7 +20,7 @@ module.exports.createCard = (req, res) => {
     .then((card) => res.status(created).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        return res.status(badRequest).send({ message: 'Переданы некорректные данные' });
       }
       return res.status(500).send({ message: 'Произошла ошибка при создании карточки' });
     });
@@ -37,7 +37,7 @@ module.exports.deleteCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(500).send({ message: 'Произошла ошибка при удалении карточки' });
@@ -59,7 +59,7 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
@@ -81,7 +81,7 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(unCorrenctData).send({ message: 'Переданы некорректные данные' });
+        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });

@@ -1,7 +1,9 @@
-module.exports.statuses = {
+const statuses = {
   ok: 200,
   created: 201,
-  unCorrenctData: 400,
+  badRequest: 400,
   notFound: 404,
   defaultError: 500,
 };
+
+module.exports = statuses;
