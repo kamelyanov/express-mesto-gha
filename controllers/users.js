@@ -4,13 +4,13 @@ const {
   created,
   unCorrenctData,
   notFound,
-  defaultError
-} = require('../constants/statuses')
+  defaultError,
+} = require('../constants/statuses');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка' }));
+    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка', err }));
 };
 
 module.exports.createUser = (req, res) => {

@@ -3,5 +3,5 @@ module.exports.statuses = {
   created: 201,
   unCorrenctData: 400,
   notFound: 404,
-  defaultError: 500
-}
+  defaultError: 500,
+};

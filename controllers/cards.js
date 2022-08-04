@@ -4,13 +4,13 @@ const {
   created,
   unCorrenctData,
   notFound,
-  defaultError
-} = require('../constants/statuses')
+  defaultError,
+} = require('../constants/statuses');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка' }));
+    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка', err }));
 };
 
 module.exports.createCard = (req, res) => {
