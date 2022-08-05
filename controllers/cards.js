@@ -10,7 +10,7 @@ const {
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка', err }));
+    .catch(() => res.status(defaultError).send({ message: 'Произошла ошибка' }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -22,7 +22,7 @@ module.exports.createCard = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(badRequest).send({ message: 'Переданы некорректные данные' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка при создании карточки' });
+      return res.status(defaultError).send({ message: 'Произошла ошибка при создании карточки' });
     });
 };
 
@@ -40,7 +40,7 @@ module.exports.deleteCard = (req, res) => {
         res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка при удалении карточки' });
+      res.status(defaultError).send({ message: 'Произошла ошибка при удалении карточки' });
     });
 };
 
@@ -62,7 +62,7 @@ module.exports.likeCard = (req, res) => {
         res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -84,6 +84,6 @@ module.exports.dislikeCard = (req, res) => {
         res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };

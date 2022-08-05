@@ -10,7 +10,7 @@ const {
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch((err) => res.status(defaultError).send({ message: 'Произошла ошибка', err }));
+    .catch(() => res.status(defaultError).send({ message: 'Произошла ошибка' }));
 };
 
 module.exports.createUser = (req, res) => {
