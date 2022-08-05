@@ -5,7 +5,6 @@ const {
   notFound,
 } = require('../constants/statuses');
 
-
 router.get('/', (req, res) => {
   res.send('Hello World');
 });
