@@ -1,4 +1,7 @@
+const bcrypt = reqire('bcrypt');
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+
 const {
   ok,
   created,
@@ -14,11 +17,19 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
+  bcrypt.hash(password, 10)
   User.create({ name, about, avatar })
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash
+    }))
     .then((user) => res.status(created).send(user))
     .catch((err) => {
+      if (err.code === 11000) {
+        res.status(badRequest).send({ message: 'Пользователь с таким Email уже существует' });
+        return;
+      }
       if (err.name === 'ValidationError') {
         res.status(badRequest).send({ message: 'Переданы некорректные данные' });
         return;
@@ -82,5 +93,26 @@ module.exports.updateAvatar = (req, res) => {
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
+    });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+      res.send({ token });
+    })
+    .catch(() => {
+      res.status(badRequest).send({ message: 'Переданы некорректные данные' });
+    });
+};
+
+module.exports.getUserMe = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => res.status(ok).send(user))
+    .catch(() => {
+      res.status(badRequest).send({ message: 'Переданы некорректные данные' });
     });
 };
