@@ -30,26 +30,23 @@ module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
-        return res.status(notFound).send({ message: 'Карточка не найдена' });
+        res.status(notFound).send({ message: 'Карточка не найдена' });
+        return;
       }
-    })
-    .then((card) => {
       if (`${card.owner}` !== req.user._id) {
         res.status(badRequest).send({ message: 'Нельзя удалять карточки других пользователей' });
         return;
       }
       Card.findByIdAndRemove(req.params.cardId);
-      return 
     })
     .then((card) => {
       res.status(ok).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
-        return;
+        return res.status(badRequest).send({ message: 'Переданы некорректные данные' });
       }
-      res.status(defaultError).send({ message: 'Произошла ошибка при удалении карточки' });
+      return res.status(defaultError).send({ message: 'Произошла ошибка при удалении карточки' });
     });
 };
 

@@ -25,16 +25,15 @@ router.patch(
       about: Joi.string().min(2).max(30),
     }),
   }),
-  updateUser
+  updateUser,
 );
 
 router.patch(
   '/me/avatar',
-  celebrate({
-    body: Joi.object().keys({
-      avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
+  celebrate({body: Joi.object().keys({avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
     }),
-  }), updateAvatar
+  }),
+  updateAvatar,
 );
 
 router.get('/me', getUserMe);
