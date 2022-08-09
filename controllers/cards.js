@@ -34,10 +34,10 @@ module.exports.deleteCard = (req, res) => {
         return;
       }
       if (`${card.owner}` !== req.user._id) {
-        res.status(badRequest).send({ message: 'Нельзя удалять карточки других пользователей' });
+        res.status(forbidden).send({ message: 'Нельзя удалять карточки других пользователей' });
         return;
       }
-      Card.findByIdAndRemove(req.params.cardId);
+      return Card.findByIdAndRemove(req.params.cardId);
     })
     .then((card) => {
       res.status(ok).send(card);
