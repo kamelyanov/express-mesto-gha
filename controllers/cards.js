@@ -30,8 +30,7 @@ module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
-        res.status(notFound).send({ message: 'Карточка не найдена' });
-        return;
+        return res.status(notFound).send({ message: 'Карточка не найдена' });
       }
     })
     .then((card) => {
@@ -39,7 +38,8 @@ module.exports.deleteCard = (req, res) => {
         res.status(badRequest).send({ message: 'Нельзя удалять карточки других пользователей' });
         return;
       }
-      return Card.findByIdAndRemove(req.params.cardId);
+      Card.findByIdAndRemove(req.params.cardId);
+      return 
     })
     .then((card) => {
       res.status(ok).send(card);

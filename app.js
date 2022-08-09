@@ -23,9 +23,9 @@ app.post(
     body: Joi.object().keys({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-    })
+    }),
   }),
-  login
+  login,
 );
 
 app.post(
@@ -37,9 +37,9 @@ app.post(
       avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-    })
+    }),
   }),
-  createUser
+  createUser,
 );
 
 app.use(auth);
