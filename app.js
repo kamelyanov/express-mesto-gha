@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
+const { errors } = require('celebrate');
 const router = require('./routes');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
@@ -44,6 +45,7 @@ app.post(
 
 app.use(auth);
 app.use(router);
+app.use(errors());
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает

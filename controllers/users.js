@@ -23,7 +23,13 @@ module.exports.createUser = (req, res) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.status(created).send(user))
+    .then((user) => res.status(created).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      _id: user._id,
+      email: user.email,
+    }))
     .catch((err) => {
       if (err.code === 11000) {
         res.status(badRequest).send({ message: 'Пользователь с таким Email уже существует' });
