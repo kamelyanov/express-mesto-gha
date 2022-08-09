@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { celebrate, Joi } = require('celebrate');
 const router = require('./routes');
 const auth = require('./middlewares/auth');
-const { login, createUser}  = require('./users');
+const { login, createUser } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
-const { celebrate, Joi } = require('celebrate');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -22,7 +23,7 @@ app.post(
     body: Joi.object().keys({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-    }),
+    })
   }),
   login
 );
@@ -36,7 +37,7 @@ app.post(
       avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-    }),
+    })
   }),
   createUser
 );
