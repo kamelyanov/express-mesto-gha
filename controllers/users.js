@@ -46,10 +46,6 @@ module.exports.createUser = (req, res) => {
         res.status(conflict).send({ message: 'Пользователь с таким Email уже существует' });
         return;
       }
-      if (err.name === 'ValidationError') {
-        res.status(unAuthorized).send({ message: 'Переданы некорректные данные' });
-        return;
-      }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
@@ -124,5 +120,3 @@ module.exports.login = (req, res) => {
       res.status(badRequest).send({ message: 'Переданы некорректные данные' });
     });
 };
-
-

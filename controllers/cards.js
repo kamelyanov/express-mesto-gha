@@ -29,16 +29,13 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.cardId)
+    .orFail()
     .then((card) => {
-      if (!card) {
-        res.status(notFound).send({ message: 'Карточка не найдена' });
-        return;
-      }
       if (`${card.owner}` !== req.user._id) {
         res.status(forbidden).send({ message: 'Нельзя удалять карточки других пользователей' });
         return;
-      }
-      Card.findByIdAndRemove(req.params.cardId);
+    }
+    return Card.findByIdAndRemove(req.params.cardId)
     })
     .then((card) => {
       res.status(ok).send(card);
