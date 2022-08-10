@@ -7,6 +7,7 @@ const {
   ok,
   created,
   badRequest,
+  unAuthorized,
   notFound,
   conflict,
   defaultError,
@@ -28,6 +29,7 @@ module.exports.getUserMe = (req, res) => {
 
 module.exports.createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
+  
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
@@ -115,6 +117,6 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch(() => {
-      res.status(badRequest).send({ message: 'Переданы некорректные данные' });
+      res.status(unAuthorized).send({ message: 'Неверный email или пароль' });
     });
 };
