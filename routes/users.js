@@ -10,12 +10,12 @@ const {
 } = require('../controllers/users');
 
 router.get('/', getUsers);
+router.get('/me', getUserMe);
 router.get(
   '/:userId',
   celebrate({ params: Joi.object().keys({ userId: Joi.string().min(24).max(24) }) }),
   getUser,
 );
-router.get('/me', getUserMe);
 router.patch(
   '/me',
   celebrate({
@@ -29,8 +29,7 @@ router.patch(
 
 router.patch(
   '/me/avatar',
-  celebrate({body: Joi.object().keys({avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
-    }),
+  celebrate({ body: Joi.object().keys({ avatar: Joi.string().uri({ scheme: ['http', 'https'] })}),
   }),
   updateAvatar,
 );
