@@ -4,6 +4,7 @@ const {
   created,
   badRequest,
   notFound,
+  forbidden,
   defaultError,
 } = require('../constants/statuses');
 
@@ -37,7 +38,7 @@ module.exports.deleteCard = (req, res) => {
         res.status(forbidden).send({ message: 'Нельзя удалять карточки других пользователей' });
         return;
       }
-      return Card.findByIdAndRemove(req.params.cardId);
+      Card.findByIdAndRemove(req.params.cardId);
     })
     .then((card) => {
       res.status(ok).send(card);

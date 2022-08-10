@@ -8,7 +8,9 @@ const {
   created,
   badRequest,
   notFound,
+  conflict,
   defaultError,
+  unAuthorized,
 } = require('../constants/statuses');
 
 module.exports.getUsers = (req, res) => {
@@ -17,8 +19,17 @@ module.exports.getUsers = (req, res) => {
     .catch(() => res.status(defaultError).send({ message: 'Произошла ошибка' }));
 };
 
+module.exports.getUserMe = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => res.send(user))
+    .catch(() => {
+      res.status(badRequest).send({ message: 'Переданы некорректные данные' });
+    });
+};
+
 module.exports.createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
+
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
@@ -32,11 +43,11 @@ module.exports.createUser = (req, res) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        res.status(badRequest).send({ message: 'Пользователь с таким Email уже существует' });
+        res.status(conflict).send({ message: 'Пользователь с таким Email уже существует' });
         return;
       }
       if (err.name === 'ValidationError') {
-        res.status(badRequest).send({ message: 'Переданы некорректные данные' });
+        res.status(unAuthorized).send({ message: 'Переданы некорректные данные' });
         return;
       }
       res.status(defaultError).send({ message: 'Произошла ошибка' });
@@ -114,10 +125,4 @@ module.exports.login = (req, res) => {
     });
 };
 
-module.exports.getUserMe = (req, res) => {
-  User.findById(req.user._id)
-    .then((user) => res.status(ok).send(user))
-    .catch(() => {
-      res.status(badRequest).send({ message: 'Переданы некорректные данные' });
-    });
-};
+
