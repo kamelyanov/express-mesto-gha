@@ -4,10 +4,7 @@ const auth = require('../middlewares/auth');
 const userRouter = require('./users');
 const cardRouter = require('./cards');
 const { login, createUser } = require('../controllers/users');
-
-const {
-  notFound,
-} = require('../constants/statuses');
+const NotFoundError = require('../errors/not-found-err');
 
 router.get('/', (req, res) => {
   res.send('Hello World');
@@ -41,8 +38,8 @@ router.post(
 router.use(auth);
 router.use('/users', userRouter);
 router.use('/cards', cardRouter);
-router.use('*', (req, res) => {
-  res.status(notFound).send({ message: 'Страница не найдена' });
+router.use('*', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
 });
 
 module.exports = router;
